@@ -1,4 +1,4 @@
-import { exists } from "./identification";
+import { exists } from './identification';
 
 export default function getStyles({
   top,
@@ -6,7 +6,7 @@ export default function getStyles({
   pointerTop,
   pointerLeft,
   pointerRotation,
-  pointerOpacity
+  pointerOpacity,
 }) {
   const style = {};
 
@@ -19,19 +19,19 @@ export default function getStyles({
   }
 
   if (exists(pointerTop)) {
-    style["--pointer-top"] = `${pointerTop}px`;
+    style['--pointer-top'] = `${pointerTop}px`;
   }
 
   if (exists(pointerLeft)) {
-    style["--pointer-left"] = `${pointerLeft}px`;
+    style['--pointer-left'] = `${pointerLeft}px`;
   }
 
   if (exists(pointerRotation)) {
-    style["--pointer-rotation"] = `${pointerRotation}deg`;
+    style['--pointer-rotation'] = `${pointerRotation}deg`;
   }
 
   if (exists(pointerOpacity)) {
-    style["--pointer-opacity"] = pointerOpacity;
+    style['--pointer-opacity'] = pointerOpacity;
   }
 
   return style;

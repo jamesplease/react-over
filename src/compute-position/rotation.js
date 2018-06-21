@@ -38,6 +38,6 @@ export default function rotateCoordinateSystem({ position, boundingBox }) {
   return {
     // We fix the numbers to get rid of precision errors
     x: Number(squeezedXPrime.toFixed(2)),
-    y: -Number(squeezedYPrime.toFixed(2))
+    y: -Number(squeezedYPrime.toFixed(2)),
   };
 }
