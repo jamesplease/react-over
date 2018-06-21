@@ -1,4 +1,4 @@
-import rotation from "./rotation";
+import rotation from './rotation';
 import coordinatesMap from './coordinates-map';
 import computePixelCoordinates from './compute-pixel-coordinates';
 import getDefaultOriginFromRotatedCoordinates from './get-default-origin-from-rotated-coordinates';
@@ -12,35 +12,35 @@ export default function computePosition({
   overBoundingBox,
   position,
   origin,
-  config
+  config,
 }) {
   const { allowOverlap } = config;
 
   if (!position) {
-    position = "top";
-  } else if (typeof position === "string") {
+    position = 'top';
+  } else if (typeof position === 'string') {
     position = position.toLowerCase();
   }
 
   let positionCoordinates;
   if (Array.isArray(position)) {
     positionCoordinates = position;
-  } else if (typeof position === "string") {
+  } else if (typeof position === 'string') {
     positionCoordinates = coordinatesMap[position];
   }
 
-  positionCoordinates = positionCoordinates || coordinatesMap["top-left"];
+  positionCoordinates = positionCoordinates || coordinatesMap['top-left'];
 
   // The relative anchor point is the anchor point relative to the trigger element
   // (0, 0) in this coordinate system is the top-left of the trigger element
   const relativeAnchorPoint = computePixelCoordinates({
     coordinates: positionCoordinates,
-    boundingBox: targetBoundingBox
+    boundingBox: targetBoundingBox,
   });
 
   const absoluteAnchorPoint = {
     left: relativeAnchorPoint.left + targetBoundingBox.left,
-    top: relativeAnchorPoint.top + targetBoundingBox.top
+    top: relativeAnchorPoint.top + targetBoundingBox.top,
   };
 
   let transformedCoordinates;
@@ -48,26 +48,26 @@ export default function computePosition({
   if (!origin) {
     transformedCoordinates = rotation({
       position: relativeAnchorPoint,
-      boundingBox: targetBoundingBox
+      boundingBox: targetBoundingBox,
     });
 
     origin = getDefaultOriginFromRotatedCoordinates(transformedCoordinates);
-  } else if (typeof origin === "string") {
+  } else if (typeof origin === 'string') {
     origin = origin.toLowerCase();
   }
 
   let originCoordinates;
   if (Array.isArray(origin)) {
     originCoordinates = origin;
-  } else if (typeof origin === "string") {
+  } else if (typeof origin === 'string') {
     originCoordinates = coordinatesMap[origin];
   }
 
-  originCoordinates = originCoordinates || coordinatesMap["top-left"];
+  originCoordinates = originCoordinates || coordinatesMap['top-left'];
 
   const originAdjustment = computePixelCoordinates({
     coordinates: originCoordinates,
-    boundingBox: overBoundingBox
+    boundingBox: overBoundingBox,
   });
 
   // These coordinates are where it would be if there was no bottom or
@@ -92,14 +92,14 @@ export default function computePosition({
       transformedCoordinates ||
       rotation({
         position: relativeAnchorPoint,
-        boundingBox: targetBoundingBox
+        boundingBox: targetBoundingBox,
       });
 
     const axisToResolveFirst = getFirstResolutionAxisFromRotatedCoordinates(
       transformedCoordinates
     );
 
-    const yAxisFirst = axisToResolveFirst === "y";
+    const yAxisFirst = axisToResolveFirst === 'y';
 
     const firstLeftOne = yAxisFirst
       ? targetBoundingBox.left
@@ -116,7 +116,7 @@ export default function computePosition({
       leftOne: firstLeftOne,
       rightOne: firstRightOne,
       leftTwo: firstLeftTwo,
-      rightTwo: firstRightTwo
+      rightTwo: firstRightTwo,
     });
 
     if (overlapFirstDim) {
@@ -131,11 +131,18 @@ export default function computePosition({
         firstDimEndBoundary = targetBoundingBox.left + targetBoundingBox.width;
       }
 
+      transformedCoordinates =
+        transformedCoordinates ||
+        rotation({
+          position: relativeAnchorPoint,
+          boundingBox: targetBoundingBox,
+        });
+
       const firstDimSkippedValue = skipBoundary({
         val: yAxisFirst ? clampedTop : clampedLeft,
         boundaryStart: firstDimStartBoundary,
         boundaryEnd: firstDimEndBoundary,
-        goHigher: true
+        goHigher: getGoHigherFromRotatedCoordinates(transformedCoordinates),
       });
 
       if (yAxisFirst) {
@@ -167,7 +174,7 @@ export default function computePosition({
       leftOne: secondLeftOne,
       rightOne: secondRightOne,
       leftTwo: secondLeftTwo,
-      rightTwo: secondRightTwo
+      rightTwo: secondRightTwo,
     });
 
     if (overlapSecondDim) {
@@ -186,7 +193,7 @@ export default function computePosition({
         val: yAxisFirst ? clampedLeft : clampedTop,
         boundaryStart: secondDimStartBoundary,
         boundaryEnd: secondDimEndBoundary,
-        goHigher: true
+        goHigher: getGoHigherFromRotatedCoordinates(transformedCoordinates),
       });
 
       if (yAxisFirst) {
@@ -203,7 +210,7 @@ export default function computePosition({
     }
   }
 
-  if (position === "bottom") {
+  if (position === 'bottom') {
     let topPos = targetBoundingBox.top + targetBoundingBox.height;
     let topEndPos = topPos + overBoundingBox.height;
     let pointerTop = 0;
@@ -221,11 +228,11 @@ export default function computePosition({
       left,
       pointerTop,
       pointerLeft,
-      pointerRotation
+      pointerRotation,
     };
   }
 
-  if (position === "right") {
+  if (position === 'right') {
     let leftPos = targetBoundingBox.left + targetBoundingBox.width;
     let leftEndPos = leftPos + overBoundingBox.width;
     let pointerTop = overBoundingBox.height / 2;
@@ -243,11 +250,11 @@ export default function computePosition({
       left,
       pointerLeft,
       pointerTop,
-      pointerRotation
+      pointerRotation,
     };
   }
 
-  if (position === "left") {
+  if (position === 'left') {
     let leftPos = targetBoundingBox.left - overBoundingBox.width;
     let pointerTop = overBoundingBox.height / 2;
     let pointerLeft = overBoundingBox.width;
@@ -264,15 +271,15 @@ export default function computePosition({
       left,
       pointerTop,
       pointerLeft,
-      pointerRotation
+      pointerRotation,
     };
   }
 
-  if (position === "center") {
+  if (position === 'center') {
     return {
       top,
       left,
-      pointerOpacity: 0
+      pointerOpacity: 0,
     };
   }
 
@@ -294,6 +301,6 @@ export default function computePosition({
     pointerLeft,
     pointerRotation,
     relativeAnchorPoint,
-    absoluteAnchorPoint
+    absoluteAnchorPoint,
   };
 }

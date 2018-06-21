@@ -1,12 +1,13 @@
-import React, { createContext, Component } from "react";
-import ReactDOM from "react-dom";
-import TransitionGroupPlus from "react-transition-group-plus";
-import noScroll from "no-scroll";
-import Overlay from "./overlay";
-import OverWrapper from "./over-wrapper";
-import isValidTriggerElement from "./is-valid-trigger-element";
-import validateOverConfig from "./validate-over-config";
-import { warning } from "./warning";
+import React, { createContext, Component } from 'react';
+import ReactDOM from 'react-dom';
+import TransitionGroupPlus from 'react-transition-group-plus';
+import noScroll from 'no-scroll';
+import Overlay from './overlay';
+import OverWrapper from './over-wrapper';
+import isValidTriggerElement from './is-valid-trigger-element';
+import validateOverConfig from './validate-over-config';
+import { warning } from './warning';
+import getGoHigherFromRotatedCoordinates from './get-go-higher-from-rotated-coordinates';
 
 // Context is used here so that a single Portal can be used for every
 // overelement in the application.
@@ -37,7 +38,7 @@ class Provider extends Component {
       // Manually close an overelement (by passing an ID)
       close: this.close,
       // A convenience API that manages opening and closing for you
-      getOverProps: this.getOverProps
+      getOverProps: this.getOverProps,
     };
   }
 
@@ -52,7 +53,7 @@ class Provider extends Component {
     // This is a mapping of "descriptions". A description is an object that represents an
     // overelement that is currently visible. Within render, we loop the descriptions
     // and render overs.
-    activeOverDescriptions: {}
+    activeOverDescriptions: {},
   };
 
   getPortalChild = () => {
@@ -95,10 +96,9 @@ class Provider extends Component {
               targetEl={overDescription.targetEl}
               triggerEl={overDescription.triggerEl}
               config={overDescription.config}
-              close={this.close}
-            >
+              close={this.close}>
               {overDescription.component}
-            </OverWrapper>
+            </OverWrapper>,
           ];
         })}
       </TransitionGroupPlus>
@@ -112,11 +112,11 @@ class Provider extends Component {
 
   open = ({ triggerEl, targetEl, component, config }) => {
     if (!isValidTriggerElement(triggerEl)) {
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         warning(
           `You attempted to open a React Over element with an invalid triggerElement.` +
             ` triggerElements must be element nodes such as <div> or <p>.`,
-          "INVALID_TRIGGER_EL_TO_OPEN"
+          'INVALID_TRIGGER_EL_TO_OPEN'
         );
       }
 
@@ -125,13 +125,13 @@ class Provider extends Component {
 
     if (
       targetEl &&
-      (!isValidTriggerElement(targetEl) && typeof targetEl !== "function")
+      (!isValidTriggerElement(targetEl) && typeof targetEl !== 'function')
     ) {
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         warning(
           `You attempted to open a React Over element with an invalid targetElement.` +
             ` targetElements must be element nodes such as <div> or <p>.`,
-          "INVALID_TARGET_EL_TO_OPEN"
+          'INVALID_TARGET_EL_TO_OPEN'
         );
       }
 
@@ -139,11 +139,11 @@ class Provider extends Component {
     }
 
     if (!React.isValidElement(component)) {
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         warning(
           `You attempted to open a React Over element with an invalid overelement.` +
             ` Over elements must be valid React elements.`,
-          "INVALID_OVER_ELEMENT_TO_OPEN"
+          'INVALID_OVER_ELEMENT_TO_OPEN'
         );
       }
 
@@ -184,9 +184,9 @@ class Provider extends Component {
         : prevState.noScrollCount;
 
       let targetElement;
-      if (typeof targetEl === "function") {
+      if (typeof targetEl === 'function') {
         targetElement = targetEl();
-      } else if (typeof targetEl !== "undefined") {
+      } else if (typeof targetEl !== 'undefined') {
         targetElement = targetEl;
       } else {
         targetElement = triggerEl;
@@ -201,24 +201,24 @@ class Provider extends Component {
             component,
             triggerEl,
             config,
-            id
-          }
-        }
+            id,
+          },
+        },
       };
     });
   };
 
   close = id => {
-    if (typeof id === "undefined") {
+    if (typeof id === 'undefined') {
       return;
     }
 
-    if (process.env.NODE_ENV !== "production") {
-      if (typeof id !== "string" && typeof id !== "number") {
+    if (process.env.NODE_ENV !== 'production') {
+      if (typeof id !== 'string' && typeof id !== 'number') {
         warning(
           `You attempted to close an over with an invalid ID. Over IDs must be` +
             ` strings or numbers.`,
-          "INVALID_ID_PASSED_TO_CLOSE"
+          'INVALID_ID_PASSED_TO_CLOSE'
         );
       }
     }
@@ -267,8 +267,8 @@ class Provider extends Component {
             noScrollCount,
             activeOverDescriptions: {
               ...prevState.activeOverDescriptions,
-              [id]: null
-            }
+              [id]: null,
+            },
           };
         },
         () => {
@@ -290,17 +290,17 @@ class Provider extends Component {
   };
 
   getOverProps = ({ type, ...config }, triggerProps = {}) => {
-    if (type === "hover") {
+    if (type === 'hover') {
       return this.getHoverProps(config, triggerProps);
-    } else if (type === "click") {
+    } else if (type === 'click') {
       return this.getClickProps(config, triggerProps);
     } else {
-      if (process.env.NODE_ENV !== "production") {
-        if (typeof id === "undefined") {
+      if (process.env.NODE_ENV !== 'production') {
+        if (typeof id === 'undefined') {
           warning(
             `You called getOverProps() with an invalid type. The valid types are` +
               ` "hover" and "click". You should check your calls to getOverProps().`,
-            "INVALID_TYPE_TO_GET_OVER_PROPS"
+            'INVALID_TYPE_TO_GET_OVER_PROPS'
           );
         }
       }
@@ -312,12 +312,12 @@ class Provider extends Component {
     { onMouseEnter, onMouseLeave, ...otherProps }
   ) => {
     const removeOnMouseOut =
-      typeof config.removeOnMouseOut === "boolean"
+      typeof config.removeOnMouseOut === 'boolean'
         ? config.removeOnMouseOut
         : true;
 
     const removeOnClickOutside =
-      typeof config.removeOnClickOutside === "boolean"
+      typeof config.removeOnClickOutside === 'boolean'
         ? config.removeOnClickOutside
         : false;
 
@@ -332,11 +332,11 @@ class Provider extends Component {
             removeOnMouseOut,
             removeOnClickOutside,
             id: config.id,
-            ...config
-          }
+            ...config,
+          },
         });
 
-        if (typeof onMouseEnter === "function") {
+        if (typeof onMouseEnter === 'function') {
           onMouseEnter(e);
         }
       },
@@ -345,10 +345,10 @@ class Provider extends Component {
           this.close(config.id);
         }
 
-        if (typeof onMouseLeave === "function") {
+        if (typeof onMouseLeave === 'function') {
           onMouseLeave(e);
         }
-      }
+      },
     };
   };
 
@@ -357,12 +357,12 @@ class Provider extends Component {
     { onClick, onMouseLeave, ...otherProps }
   ) => {
     const removeOnMouseOut =
-      typeof config.removeOnMouseOut === "boolean"
+      typeof config.removeOnMouseOut === 'boolean'
         ? config.removeOnMouseOut
         : false;
 
     const removeOnClickOutside =
-      typeof config.removeOnClickOutside === "boolean"
+      typeof config.removeOnClickOutside === 'boolean'
         ? config.removeOnClickOutside
         : true;
 
@@ -384,12 +384,12 @@ class Provider extends Component {
             config: {
               removeOnMouseOut,
               removeOnClickOutside,
-              ...config
-            }
+              ...config,
+            },
           });
         }
 
-        if (typeof onClick === "function") {
+        if (typeof onClick === 'function') {
           onClick(e);
         }
       },
@@ -398,15 +398,15 @@ class Provider extends Component {
           this.close(config.id);
         }
 
-        if (typeof onMouseLeave === "function") {
+        if (typeof onMouseLeave === 'function') {
           onMouseLeave(e);
         }
-      }
+      },
     };
   };
 }
 
 export default {
   Consumer: OverContext.Consumer,
-  Provider
+  Provider,
 };
