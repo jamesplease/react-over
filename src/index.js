@@ -7,7 +7,6 @@ import OverWrapper from './over-wrapper';
 import isValidTriggerElement from './is-valid-trigger-element';
 import validateOverConfig from './validate-over-config';
 import { warning } from './warning';
-import getGoHigherFromRotatedCoordinates from './get-go-higher-from-rotated-coordinates';
 
 // Context is used here so that a single Portal can be used for every
 // overelement in the application.
