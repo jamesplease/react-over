@@ -10,7 +10,7 @@ export function warning(message, code) {
     codeCache[code] = true;
   }
 
-  if (console && typeof console.error === "function") {
+  if (console && typeof console.error === 'function') {
     console.error(`Warning: ${message}`);
   }
 

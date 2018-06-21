@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import computePosition from "./compute-position";
-import getStyles from "./get-styles";
-import simpleShallowEquals from "./simple-shallow-equals";
+import React, { Component } from 'react';
+import computePosition from './compute-position';
+import getStyles from './get-styles';
+import simpleShallowEquals from './simple-shallow-equals';
 
 export default class OverWrapper extends Component {
   render() {
@@ -17,8 +17,8 @@ export default class OverWrapper extends Component {
 
   state = {
     style: {
-      position: "fixed"
-    }
+      position: 'fixed',
+    },
   };
 
   getRef = ref => {
@@ -31,11 +31,11 @@ export default class OverWrapper extends Component {
     this.positionElement();
 
     if (config.removeOnClickOutside) {
-      document.addEventListener("click", this.onClickOutside);
+      document.addEventListener('click', this.onClickOutside);
     }
 
-    window.addEventListener("resize", this.onResize);
-    window.addEventListener("scroll", this.onScroll, true);
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('scroll', this.onScroll, true);
 
     // If we have `closeOnScroll` configured, then we need to get the
     // initial position of the `targetEl`.
@@ -46,7 +46,7 @@ export default class OverWrapper extends Component {
 
       this.initialPosition = {
         top: rect.top,
-        left: rect.left
+        left: rect.left,
       };
     }
   }
@@ -68,9 +68,9 @@ export default class OverWrapper extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this.onClickOutside);
-    window.removeEventListener("scroll", this.onScroll, true);
-    window.removeEventListener("resize", this.onResize);
+    document.removeEventListener('click', this.onClickOutside);
+    window.removeEventListener('scroll', this.onScroll, true);
+    window.removeEventListener('resize', this.onResize);
   }
 
   cachedOverBoundingBox = null;
@@ -89,7 +89,7 @@ export default class OverWrapper extends Component {
       overEl: this.el,
       triggerEl,
       targetEl,
-      positionObj: this.positionObj
+      positionObj: this.positionObj,
     });
   }
 
@@ -106,7 +106,7 @@ export default class OverWrapper extends Component {
       overEl: this.el,
       triggerEl,
       targetEl,
-      positionObj: this.positionObj
+      positionObj: this.positionObj,
     });
   }
 
@@ -124,7 +124,7 @@ export default class OverWrapper extends Component {
       triggerEl,
       targetEl,
       overEl: this.el,
-      positionObj: this.positionObj
+      positionObj: this.positionObj,
     });
   }
 
@@ -141,7 +141,7 @@ export default class OverWrapper extends Component {
       overEl: this.el,
       triggerEl,
       targetEl,
-      positionObj: this.positionObj
+      positionObj: this.positionObj,
     });
   }
 
@@ -156,7 +156,7 @@ export default class OverWrapper extends Component {
       return;
     }
 
-    if (typeof config.position === "function") {
+    if (typeof config.position === 'function') {
       return config.position({ overEl: this.el, triggerEl, targetEl });
     }
 
@@ -169,7 +169,7 @@ export default class OverWrapper extends Component {
       origin: config.origin,
       targetBoundingBox,
       overBoundingBox,
-      config
+      config,
     });
 
     // Should this go onto component state?
@@ -185,8 +185,8 @@ export default class OverWrapper extends Component {
       return {
         style: {
           ...prevState.style,
-          ...newStyles
-        }
+          ...newStyles,
+        },
       };
     });
   };
@@ -209,7 +209,7 @@ export default class OverWrapper extends Component {
       if (e.target.contains(targetEl)) {
         // This allows a user to specify a maximum acceptable distance before
         // the thing closes.
-        if (typeof closeOnScroll === "number") {
+        if (typeof closeOnScroll === 'number') {
           const position = targetEl.getBoundingClientRect();
 
           const topChange = position.top - this.initialPosition.top;

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { warning } from "./warning";
+import React, { Component } from 'react';
+import { warning } from './warning';
 
-const defaultColor = "rgba(0, 0, 0, 0.7)";
-const transition = "opacity 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+const defaultColor = 'rgba(0, 0, 0, 0.7)';
+const transition = 'opacity 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
 // Overlays are optional backgrounds to the over.
 // By default, overs do not have an overlay. There are
@@ -34,12 +34,12 @@ export default class Overlay extends Component {
     }
 
     let color;
-    if (typeof config !== "string") {
-      if (process.env.NODE_ENV !== "production") {
+    if (typeof config !== 'string') {
+      if (process.env.NODE_ENV !== 'production') {
         warning(
           `You passed an invalid value as overlay when configuring a React Over element.` +
             ` The overlay option must be a React Element or a string.`,
-          "MISSING_CONFIG"
+          'MISSING_CONFIG'
         );
       }
 
@@ -52,12 +52,12 @@ export default class Overlay extends Component {
       <div
         ref={this.getRef}
         style={{
-          position: "fixed",
+          position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: color
+          backgroundColor: color,
         }}
       />
     );

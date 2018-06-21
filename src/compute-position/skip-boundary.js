@@ -1,4 +1,9 @@
-export default function skipBoundary({ val, boundaryStart, boundaryEnd, goHigher = true }) {
+export default function skipBoundary({
+  val,
+  boundaryStart,
+  boundaryEnd,
+  goHigher = true,
+}) {
   const isBetween = val > boundaryStart && val < boundaryEnd;
 
   if (isBetween) {

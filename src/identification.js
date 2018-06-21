@@ -1,3 +1,3 @@
 export function exists(val) {
-  return typeof val !== "undefined";
+  return typeof val !== 'undefined';
 }
