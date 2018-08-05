@@ -1,5 +1,10 @@
 # React Over
 
+[![Travis build status](http://img.shields.io/travis/jamesplease/react-over.svg?style=flat)](https://travis-ci.org/jamesplease/react-over)
+[![npm version](https://img.shields.io/npm/v/react-over.svg)](https://www.npmjs.com/package/react-over)
+[![Test Coverage](https://coveralls.io/repos/github/jamesplease/react-over/badge.svg?branch=master)](https://coveralls.io/github/jamesplease/react-over?branch=master)
+[![gzip size](http://img.badgesize.io/https://unpkg.com/react-over/dist/react-over.min.js?compression=gzip)](https://unpkg.com/react-over/dist/react-over.min.js)
+
 A library for positioning elements that appear _over_ the rest of your application. Great for modals,
 dropdowns, tooltips, flyovers, and more.
 
