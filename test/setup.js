@@ -1,5 +1,7 @@
 import * as warning from '../src/warning';
 
+/* eslint no-console:"off" */
+
 beforeEach(() => {
   if (console.error.mockRestore) {
     console.error.mockRestore();
