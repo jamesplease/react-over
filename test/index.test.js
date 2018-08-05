@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactOver from '../src';
 
 describe('React Over', () => {

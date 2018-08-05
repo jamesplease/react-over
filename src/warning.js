@@ -1,3 +1,5 @@
+/* eslint no-console:"off" */
+
 let codeCache = {};
 
 export function warning(message, code) {
